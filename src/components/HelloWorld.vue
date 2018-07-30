@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <button @click="click">ボタン</button>
+    <p>{{ decoratedTest }}</p>
     <p>
       For guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -34,11 +36,33 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
 @Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
+  @Prop() private msg!: string; // props
+  private test: number = 1;     // data
+  @Watch('test') private onTestChanged(value: string, old: string) {  // watch
+    console.log(`test: new ${value} old ${old}`);
+  }
+
+  private mounted() { // mounted
+    console.log('mounted');
+  }
+
+  private created() { // craeted
+    console.log('created');
+  }
+
+  get decoratedTest(): string { // computed
+    console.log('computed method');
+    return 'decorate with computed method: ' + this.test;
+  }
+
+  private click() {   // methods
+    console.log('button clicked');
+    this.test = this.test + 1;
+  }
 }
 </script>
 
